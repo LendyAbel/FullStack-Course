@@ -1,18 +1,18 @@
 import { useState } from "react";
 
 //COMPONENTS
-const Button = (props) => {
-  const { buttonText, onSmash } = props;
+const Button = ({ buttonText, onSmash }) => {
   return (
     <>
       <button onClick={onSmash}>{buttonText}</button>
     </>
   );
 };
-const Statistic = ({ statisticName, value }) => {
+const Statistics = ({ statisticName, value }) => {
   return (
     <p>
-      {statisticName}: {value} {statisticName.toUpperCase()==="POSITIVE"? "%" : null}
+      {statisticName}: {value}{" "}
+      {statisticName.toUpperCase() === "POSITIVE" ? "%" : null}
     </p>
   );
 };
@@ -24,7 +24,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const total = good + neutral + bad;
   const average = (good - bad) / total || 0;
-  const positive = good*100/total || 0;
+  const positive = (good * 100) / total || 0;
 
   //FUNCTIONS
   const goodClicked = () => {
@@ -52,12 +52,12 @@ const App = () => {
       </div>
       <div>
         <h2>Statistics</h2>
-        <Statistic statisticName={"Good"} value={good} />
-        <Statistic statisticName={"Neutral"} value={neutral} />
-        <Statistic statisticName={"Bad"} value={bad} />
-        <Statistic statisticName={"All"} value={total} />
-        <Statistic statisticName={"Average"} value={average}/>
-        <Statistic statisticName={"Positive"} value={positive}/>
+        <Statistics statisticName={"Good"} value={good} />
+        <Statistics statisticName={"Neutral"} value={neutral} />
+        <Statistics statisticName={"Bad"} value={bad} />
+        <Statistics statisticName={"All"} value={total} />
+        <Statistics statisticName={"Average"} value={average} />
+        <Statistics statisticName={"Positive"} value={positive} />
       </div>
     </div>
   );
