@@ -24,7 +24,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const total = good + neutral + bad;
   const average = (good - bad) / total || 0;
-  const positive = (good/total)*100 || 0;
+  const positive = good*100/total || 0;
 
   //FUNCTIONS
   const goodClicked = () => {
