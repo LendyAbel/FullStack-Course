@@ -10,10 +10,12 @@ const Button = ({ buttonText, onSmash }) => {
 };
 const Statistics = ({ statisticName, value }) => {
   return (
-    <p>
-      {statisticName}: {value}{" "}
-      {statisticName.toUpperCase() === "POSITIVE" ? "%" : null}
-    </p>
+    <tr>
+      <td>{statisticName}</td>
+      <td>
+        {value}{" "}{statisticName.toUpperCase() === "POSITIVE" ? "%" : null}
+      </td>
+    </tr>
   );
 };
 
@@ -56,12 +58,16 @@ const App = () => {
         ) : (
           <>
             <h2>Statistics</h2>
-            <Statistics statisticName={"Good"} value={good} />
-            <Statistics statisticName={"Neutral"} value={neutral} />
-            <Statistics statisticName={"Bad"} value={bad} />
-            <Statistics statisticName={"All"} value={total} />
-            <Statistics statisticName={"Average"} value={average} />
-            <Statistics statisticName={"Positive"} value={positive} />
+            <table border={1}>
+              <tbody>
+              <Statistics statisticName={"Good"} value={good} />
+              <Statistics statisticName={"Neutral"} value={neutral} />
+              <Statistics statisticName={"Bad"} value={bad} />
+              <Statistics statisticName={"All"} value={total} />
+              <Statistics statisticName={"Average"} value={average} />
+              <Statistics statisticName={"Positive"} value={positive} />
+              </tbody>
+            </table>
           </>
         )}
       </div>
@@ -70,4 +76,3 @@ const App = () => {
 };
 
 export default App;
-
