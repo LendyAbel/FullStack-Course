@@ -1,11 +1,19 @@
+import { useState } from "react";
+
 const App = () => {
-  const friends = [ 'Peter', 'Maya']
+  const [value, setValue] = useState(10)
+
+  const hello = () => {
+    const handler = () => console.log('hello world')
+    return handler
+  }
 
   return (
     <div>
-      <p>{friends}</p>
+      {value}
+      <button onClick={hello()}>button</button>
     </div>
   )
 }
 
-export default App
+export default App;
