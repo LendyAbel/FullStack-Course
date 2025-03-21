@@ -51,13 +51,19 @@ const App = () => {
         <Button buttonText="Bad" onSmash={badClicked} />
       </div>
       <div>
-        <h2>Statistics</h2>
-        <Statistics statisticName={"Good"} value={good} />
-        <Statistics statisticName={"Neutral"} value={neutral} />
-        <Statistics statisticName={"Bad"} value={bad} />
-        <Statistics statisticName={"All"} value={total} />
-        <Statistics statisticName={"Average"} value={average} />
-        <Statistics statisticName={"Positive"} value={positive} />
+        {total === 0 ? (
+          <h2>No feedback given</h2>
+        ) : (
+          <>
+            <h2>Statistics</h2>
+            <Statistics statisticName={"Good"} value={good} />
+            <Statistics statisticName={"Neutral"} value={neutral} />
+            <Statistics statisticName={"Bad"} value={bad} />
+            <Statistics statisticName={"All"} value={total} />
+            <Statistics statisticName={"Average"} value={average} />
+            <Statistics statisticName={"Positive"} value={positive} />
+          </>
+        )}
       </div>
     </div>
   );
