@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState } from "react";
 
 const App = () => {
+  // console.log("---------------------------");
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -13,32 +14,61 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
-  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
-  console.log(selected)
-  console.log(votes)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+
+  // console.log(selected)
+  // console.log(votes)
 
   //FUNCTIONS
   const selectRandom = () => {
-    const randomAnecdote = Math.floor(Math.random() * anecdotes.length)
-    setSelected(randomAnecdote)
+    const randomAnecdote = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomAnecdote);
   };
   const addVote = () => {
-    const votesCopy = [...votes]
-    votesCopy[selected] +=1
-    setVotes(votesCopy)
-  }
+    const votesCopy = [...votes];
+    votesCopy[selected] += 1;
+    setVotes(votesCopy);
+  };
+
+  //One way to do it:
+  // const findMostVotes = (arr) => {
+  //   let mostVotesIndex = 0;
+  //   let mostVotesValue = arr[0];
+  //   for (let index = 1; index < arr.length; index++) {
+  //     let currentValue = arr[index];
+  //     let currentIndex = index;
+  //     if (currentValue > mostVotesValue) {
+  //       mostVotesValue = currentValue;
+  //       mostVotesIndex = currentIndex;
+  //     }
+  //   }
+  //   console.log(mostVotesIndex);
+  //   return mostVotesIndex;
+  // };
+
+  //Another way to do it:
+  // const mostVotesIndex = votes.reduce((maxIndex, value, index, arr) =>
+  //   value > arr[maxIndex] ? index : maxIndex, 0
+  // );
+
+  const mostVotesIndex = votes.indexOf(Math.max(...votes));
+
+  // console.log("mostVotesIndex:",mostVotesIndex)
+  // console.log("votes:", votes);
 
   return (
     <div>
-      <h1>Anecdote of the day</h1>
+      <h2>Anecdote of the day</h2>
       <div>
         <p>{anecdotes[selected]}</p>
         <p>has {votes[selected]} votes</p>
       </div>
       <button onClick={addVote}>vote</button>
       <button onClick={selectRandom}>next anecdotes</button>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[mostVotesIndex]}</p>
     </div>
   );
 };
 
-export default App
+export default App;
