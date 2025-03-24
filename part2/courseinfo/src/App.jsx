@@ -1,28 +1,4 @@
-const Course = (props) => {
-  console.log("props", props);
-  const courseName = props.course.name;
-  const parts = props.course.parts;
-
-  console.log("parts", parts);
-
-  const total = parts.reduce((acc, part) => acc + part.exercises, 0);
-
-  return (
-    <>
-      <h2>{courseName}</h2>
-      <ul>
-        {parts.map((part) => (
-          <li key={part.id}>
-            {part.name} {part.exercises}
-          </li>
-        ))}
-      </ul>
-      <p>
-        <strong>Total of {total} exercises</strong>
-      </p>
-    </>
-  );
-};
+import Course from "./components/Course";
 
 const App = () => {
   const courses = [
@@ -70,9 +46,7 @@ const App = () => {
     },
   ];
 
-  return courses.map((course) => {
-    return <Course key={course.id} course={course} />;
-  });
+  return courses.map((course) => <Course key={course.id} course={course} />);
 };
 
 export default App;
