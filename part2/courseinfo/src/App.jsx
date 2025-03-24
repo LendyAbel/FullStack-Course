@@ -2,7 +2,10 @@ const Course = (props) => {
   console.log("props", props);
   const courseName = props.course.name;
   const parts = props.course.parts;
+  
   console.log("parts", parts);
+
+  const total = parts.reduce((acc, part) => acc + part.exercises, 0);
 
   return (
     <>
@@ -15,10 +18,7 @@ const Course = (props) => {
         ))}
       </ul>
       <p>
-        <strong>
-          Total of {parts.reduce((acc, part) => acc + part.exercises, 0)}{" "}
-          exercises
-        </strong>
+        <strong>Total of {total} exercises</strong>
       </p>
     </>
   );
