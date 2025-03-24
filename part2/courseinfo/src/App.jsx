@@ -14,6 +14,12 @@ const Course = (props) => {
           </li>
         ))}
       </ul>
+      <p>
+        <strong>
+          Total of {parts.reduce((acc, part) => acc + part.exercises, 0)}{" "}
+          exercises
+        </strong>
+      </p>
     </>
   );
 };
