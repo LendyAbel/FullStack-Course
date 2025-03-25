@@ -1,20 +1,24 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 const App = () => {
   //VARIABLES
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
-  const [newName, setNewName] = useState('')
+  const [persons, setPersons] = useState([{ name: "Arto Hellas" }])
+  const [newName, setNewName] = useState("")
 
   //FUNCTIONS
-  const add = (e) =>{
+  const add = (e) => {
     e.preventDefault()
-    setPersons(persons.concat({name: newName}))
-    setNewName("");
+
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
+    setPersons(persons.concat({ name: newName }))
+    setNewName("")
   }
 
-  const inputOnChange = (e) =>{
+  const inputOnChange = (e) => {
     setNewName(e.target.value)
   }
 
@@ -24,7 +28,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={add}>
         <div>
-          name: <input value={newName} onChange={inputOnChange}/>
+          name: <input value={newName} onChange={inputOnChange} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -32,7 +36,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(person=> <p key={person.name}>{person.name}</p>)}
+        {persons.map((person) => (
+          <p key={person.name}>{person.name}</p>
+        ))}
       </div>
     </div>
   )
