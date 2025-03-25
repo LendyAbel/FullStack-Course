@@ -11,6 +11,7 @@ const App = () => {
   ])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
+  const [filterText, setFilterText] = useState("")
 
   //FUNCTIONS
   //Add Contact
@@ -37,6 +38,22 @@ const App = () => {
     setNewName("")
     setNewNumber("")
   }
+  //Show numbers
+  const showNumbers = (persons) => {
+    const isFilter = () => filterText != ""
+    // console.log("is filter: ", isFilter())
+    const personsToShow = []
+    console.log(persons.map((person)=>{
+      return person.name.toUpperCase().includes(filterText.toUpperCase())
+    }));
+    
+    
+    return persons.map((person) => (
+      <p key={person.id}>
+        {person.name} {person.number}
+      </p>
+    ))
+  }
 
   //OnChange Handlers
   const nameOnChange = (e) => {
@@ -45,11 +62,17 @@ const App = () => {
   const numberOnChange = (e) => {
     setNewNumber(e.target.value)
   }
+  const filterOnCHange = (e) => {
+    setFilterText(e.target.value)
+  }
 
   //RETURN
   return (
     <div>
       <h1>Phonebook</h1>
+      <div>
+        filter shown with <input value={filterText} onChange={filterOnCHange} />
+      </div>
       <h2>Add new contact</h2>
       <form onSubmit={add}>
         <div>
@@ -64,13 +87,7 @@ const App = () => {
       </form>
 
       <h2>Numbers</h2>
-      <div>
-        {persons.map((person) => (
-          <p key={person.id}>
-            {person.name} {person.number}
-          </p>
-        ))}
-      </div>
+      <div>{showNumbers(persons)}</div>
     </div>
   )
 }
