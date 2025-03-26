@@ -32,7 +32,37 @@ const AddContactForm = ({
     </>
   )
 }
+const ShowNumbers = ({ persons, filterText }) => {
+  const showNumbers = (persons) => {
+    let personsToShow = persons
 
+    const isFilter = () => filterText != ""
+
+    const isIncludes = (person) =>
+      person.name.toUpperCase().includes(filterText.toUpperCase())
+
+    const personsFilter = persons.filter((person) => isIncludes(person))
+
+    // console.log(personsFilter)
+
+    if (isFilter()) {
+      personsToShow = personsFilter
+    }
+
+    return personsToShow.map((person) => (
+      <p key={person.id}>
+        {person.name} {person.number}
+      </p>
+    ))
+  }
+
+  return (
+    <>
+      <h2>Numbers</h2>
+      <div>{showNumbers(persons)}</div>
+    </>
+  )
+}
 const App = () => {
   console.log("-------------------------")
   //VARIABLES
@@ -47,7 +77,6 @@ const App = () => {
   const [filterText, setFilterText] = useState("")
 
   //FUNCTIONS
-  //Add Contact
   const add = (e) => {
     e.preventDefault()
 
@@ -74,29 +103,6 @@ const App = () => {
     setNewName("")
     setNewNumber("")
   }
-  //Show numbers
-  const showNumbers = (persons) => {
-    let personsToShow = persons
-
-    const isFilter = () => filterText != ""
-
-    const isIncludes = (person) =>
-      person.name.toUpperCase().includes(filterText.toUpperCase())
-
-    const personsFilter = persons.filter((person) => isIncludes(person))
-
-    // console.log(personsFilter)
-
-    if (isFilter()) {
-      personsToShow = personsFilter
-    }
-
-    return personsToShow.map((person) => (
-      <p key={person.id}>
-        {person.name} {person.number}
-      </p>
-    ))
-  }
 
   //OnChange Handlers
   const nameOnChange = (e) => {
@@ -114,10 +120,14 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Filter filterText={filterText} filterOnChange={filterOnChange} />
-      <AddContactForm newName={newName} newNumber={newNumber} nameOnChange={nameOnChange} numberOnChange={numberOnChange} add={add} />
-
-      <h2>Numbers</h2>
-      <div>{showNumbers(persons)}</div>
+      <AddContactForm
+        newName={newName}
+        newNumber={newNumber}
+        nameOnChange={nameOnChange}
+        numberOnChange={numberOnChange}
+        add={add}
+      />
+      <ShowNumbers persons={persons} filterText={filterText} />
     </div>
   )
 }
