@@ -1,5 +1,68 @@
 import { useState } from "react"
 
+const Filter = ({ filterText, filterOnChange }) => {
+  // console.log("Filter Props: ", props)
+  return (
+    <div>
+      filter shown with <input value={filterText} onChange={filterOnChange} />
+    </div>
+  )
+}
+const AddContactForm = ({
+  newName,
+  newNumber,
+  nameOnChange,
+  numberOnChange,
+  add,
+}) => {
+  return (
+    <>
+      <h2>Add new contact</h2>
+      <form onSubmit={add}>
+        <div>
+          name: <input value={newName} onChange={nameOnChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={numberOnChange} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </>
+  )
+}
+const ShowNumbers = ({ persons, filterText }) => {
+  const showNumbers = (persons) => {
+    let personsToShow = persons
+
+    const isFilter = () => filterText != ""
+
+    const isIncludes = (person) =>
+      person.name.toUpperCase().includes(filterText.toUpperCase())
+
+    const personsFilter = persons.filter((person) => isIncludes(person))
+
+    // console.log(personsFilter)
+
+    if (isFilter()) {
+      personsToShow = personsFilter
+    }
+
+    return personsToShow.map((person) => (
+      <p key={person.id}>
+        {person.name} {person.number}
+      </p>
+    ))
+  }
+
+  return (
+    <>
+      <h2>Numbers</h2>
+      <div>{showNumbers(persons)}</div>
+    </>
+  )
+}
 const App = () => {
   console.log("-------------------------")
   //VARIABLES
@@ -14,7 +77,6 @@ const App = () => {
   const [filterText, setFilterText] = useState("")
 
   //FUNCTIONS
-  //Add Contact
   const add = (e) => {
     e.preventDefault()
 
@@ -41,29 +103,6 @@ const App = () => {
     setNewName("")
     setNewNumber("")
   }
-  //Show numbers
-  const showNumbers = (persons) => {
-    let personsToShow = persons
-
-    const isFilter = () => filterText != ""
-
-    const isIncludes = (person) =>
-      person.name.toUpperCase().includes(filterText.toUpperCase())
-
-    const personsFilter = persons.filter((person) => isIncludes(person))
-
-    // console.log(personsFilter)
-
-    if (isFilter()) {
-      personsToShow = personsFilter
-    }
-
-    return personsToShow.map((person) => (
-      <p key={person.id}>
-        {person.name} {person.number}
-      </p>
-    ))
-  }
 
   //OnChange Handlers
   const nameOnChange = (e) => {
@@ -72,7 +111,7 @@ const App = () => {
   const numberOnChange = (e) => {
     setNewNumber(e.target.value)
   }
-  const filterOnCHange = (e) => {
+  const filterOnChange = (e) => {
     setFilterText(e.target.value)
   }
 
@@ -80,24 +119,15 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        filter shown with <input value={filterText} onChange={filterOnCHange} />
-      </div>
-      <h2>Add new contact</h2>
-      <form onSubmit={add}>
-        <div>
-          name: <input value={newName} onChange={nameOnChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={numberOnChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-
-      <h2>Numbers</h2>
-      <div>{showNumbers(persons)}</div>
+      <Filter filterText={filterText} filterOnChange={filterOnChange} />
+      <AddContactForm
+        newName={newName}
+        newNumber={newNumber}
+        nameOnChange={nameOnChange}
+        numberOnChange={numberOnChange}
+        add={add}
+      />
+      <ShowNumbers persons={persons} filterText={filterText} />
     </div>
   )
 }
