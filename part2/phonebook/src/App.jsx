@@ -22,7 +22,10 @@ const App = () => {
       alert("Name or Number is empty")
       return
     }
-    if (persons.some((person) => person.name === newName)) {
+
+    const isRepeated = () => persons.some((person) => person.name === newName)
+
+    if (isRepeated()) {
       alert(`${newName} is already added to phonebook`)
       return
     }
@@ -40,15 +43,22 @@ const App = () => {
   }
   //Show numbers
   const showNumbers = (persons) => {
+    let personsToShow = persons
+
     const isFilter = () => filterText != ""
-    // console.log("is filter: ", isFilter())
-    const personsToShow = []
-    console.log(persons.map((person)=>{
-      return person.name.toUpperCase().includes(filterText.toUpperCase())
-    }));
-    
-    
-    return persons.map((person) => (
+
+    const isIncludes = (person) =>
+      person.name.toUpperCase().includes(filterText.toUpperCase())
+
+    const personsFilter = persons.filter((person) => isIncludes(person))
+
+    // console.log(personsFilter)
+
+    if (isFilter()) {
+      personsToShow = personsFilter
+    }
+
+    return personsToShow.map((person) => (
       <p key={person.id}>
         {person.name} {person.number}
       </p>
