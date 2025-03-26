@@ -1,5 +1,14 @@
 import { useState } from "react"
 
+const Filter = ({filterText,filterOnChange}) => {
+  // console.log("Filter Props: ", props)
+  return (
+    <div>
+      filter shown with <input value={filterText} onChange={filterOnChange} />
+    </div>
+  )
+}
+
 const App = () => {
   console.log("-------------------------")
   //VARIABLES
@@ -72,7 +81,7 @@ const App = () => {
   const numberOnChange = (e) => {
     setNewNumber(e.target.value)
   }
-  const filterOnCHange = (e) => {
+  const filterOnChange = (e) => {
     setFilterText(e.target.value)
   }
 
@@ -80,9 +89,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        filter shown with <input value={filterText} onChange={filterOnCHange} />
-      </div>
+      <Filter filterText={filterText} filterOnChange={filterOnChange}/>
       <h2>Add new contact</h2>
       <form onSubmit={add}>
         <div>
