@@ -1,11 +1,35 @@
 import { useState } from "react"
 
-const Filter = ({filterText,filterOnChange}) => {
+const Filter = ({ filterText, filterOnChange }) => {
   // console.log("Filter Props: ", props)
   return (
     <div>
       filter shown with <input value={filterText} onChange={filterOnChange} />
     </div>
+  )
+}
+const AddContactForm = ({
+  newName,
+  newNumber,
+  nameOnChange,
+  numberOnChange,
+  add,
+}) => {
+  return (
+    <>
+      <h2>Add new contact</h2>
+      <form onSubmit={add}>
+        <div>
+          name: <input value={newName} onChange={nameOnChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={numberOnChange} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </>
   )
 }
 
@@ -89,19 +113,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Filter filterText={filterText} filterOnChange={filterOnChange}/>
-      <h2>Add new contact</h2>
-      <form onSubmit={add}>
-        <div>
-          name: <input value={newName} onChange={nameOnChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={numberOnChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter filterText={filterText} filterOnChange={filterOnChange} />
+      <AddContactForm newName={newName} newNumber={newNumber} nameOnChange={nameOnChange} numberOnChange={numberOnChange} add={add} />
 
       <h2>Numbers</h2>
       <div>{showNumbers(persons)}</div>
