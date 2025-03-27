@@ -1,68 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
-const Filter = ({ filterText, filterOnChange }) => {
-  // console.log("Filter Props: ", props)
-  return (
-    <div>
-      filter shown with <input value={filterText} onChange={filterOnChange} />
-    </div>
-  )
-}
-const AddContactForm = ({
-  newName,
-  newNumber,
-  nameOnChange,
-  numberOnChange,
-  add,
-}) => {
-  return (
-    <>
-      <h2>Add new contact</h2>
-      <form onSubmit={add}>
-        <div>
-          name: <input value={newName} onChange={nameOnChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={numberOnChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-    </>
-  )
-}
-const ShowNumbers = ({ persons, filterText }) => {
-  const showNumbers = (persons) => {
-    let personsToShow = persons
+import Filter from './components/Filter'
+import AddContactForm from "./components/AddContactForm"
+import ShowNumbers from "./components/ShowNumbers"
 
-    const isFilter = () => filterText != ""
 
-    const isIncludes = (person) =>
-      person.name.toUpperCase().includes(filterText.toUpperCase())
-
-    const personsFilter = persons.filter((person) => isIncludes(person))
-
-    // console.log(personsFilter)
-
-    if (isFilter()) {
-      personsToShow = personsFilter
-    }
-
-    return personsToShow.map((person) => (
-      <p key={person.id}>
-        {person.name} {person.number}
-      </p>
-    ))
-  }
-
-  return (
-    <>
-      <h2>Numbers</h2>
-      <div>{showNumbers(persons)}</div>
-    </>
-  )
-}
 const App = () => {
   console.log("-------------------------")
   //VARIABLES
