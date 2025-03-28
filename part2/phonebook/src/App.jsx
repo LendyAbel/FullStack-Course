@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import axios from "axios"
 import contacts from "./services/contacts"
 
 import Filter from "./components/Filter"
@@ -15,36 +14,32 @@ const App = () => {
   const [filterText, setFilterText] = useState("")
 
   useEffect(() => {
-    contacts.getAllContacts().then( contacts =>{
+    contacts.getAllContacts().then((contacts) => {
       setPersons(contacts)
     })
   }, [])
 
   const add = (e) => {
     e.preventDefault()
-
     if (!newName || !newNumber) {
       alert("Name or Number is empty")
       return
     }
-
     const isRepeated = () => persons.some((person) => person.name === newName)
-
     if (isRepeated()) {
       alert(`${newName} is already added to phonebook`)
       return
     }
-
-    setPersons(
-      persons.concat({
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1,
-      })
-    )
-
-    setNewName("")
-    setNewNumber("")
+    const newPerson = {
+      name: newName,
+      number: newNumber,
+      id: persons.length + 1,
+    }
+    contacts.addContact(newPerson).then((newPerson) => {
+      setPersons(persons.concat(newPerson))
+      setNewName("")
+      setNewNumber("")
+    })
   }
 
   //OnChange Handlers

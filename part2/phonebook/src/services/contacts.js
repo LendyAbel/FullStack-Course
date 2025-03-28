@@ -8,4 +8,9 @@ const getAllContacts = () =>{
     return request.then(response => response.data)
 }
 
-export default {getAllContacts}
+const addContact = (newPerson) =>{
+    const request = axios.post(baseUrl,newPerson);
+    return request.then(response => response.data)
+}
+
+export default {getAllContacts, addContact}
