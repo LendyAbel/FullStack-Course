@@ -33,7 +33,6 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
     contacts.addContact(newPerson).then((newPerson) => {
       setPersons(persons.concat(newPerson))
