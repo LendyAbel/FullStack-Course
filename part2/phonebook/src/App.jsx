@@ -21,19 +21,21 @@ const App = () => {
 
   const add = e => {
     e.preventDefault()
-    if (!newName || !newNumber) {
-      alert('Name or Number is empty')
-      return
-    }
     const isRepeated = () => persons.some(person => person.name === newName)
-    if (isRepeated()) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
     const newPerson = {
       name: newName,
       number: newNumber,
     }
+
+    if (!newName || !newNumber) {
+      alert('Name or Number is empty')
+      return
+    }
+    if (isRepeated()) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
     contacts.addContact(newPerson).then(newPerson => {
       setPersons(persons.concat(newPerson))
       setNewName('')
@@ -42,9 +44,15 @@ const App = () => {
   }
 
   const deleteContact = e => {
-    if (e.target.tagName === 'BUTTON') {
-      // console.log(e.target.id)
-      const deletedContactId = e.target.id
+    const deletedContactId = e.target.id
+    const personToDelete = persons.find(person => person.id === e.target.id)
+    // console.log(e.target.id)
+    // console.log(personToDelete)
+
+    if (
+      e.target.tagName === 'BUTTON' &&
+      window.confirm(`Delete ${personToDelete.name}?`)
+    ) {
       contacts.deleteContact(deletedContactId).then(() => {
         setPersons(persons.filter(person => person.id != deletedContactId))
       })

@@ -15,6 +15,7 @@ const addContact = newPerson => {
 
 const deleteContact = id => {
   // console.log(`delete contact with id ${id}`)
+  
   return axios.delete(`${baseUrl}/${id}`)
 }
 
