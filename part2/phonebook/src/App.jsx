@@ -1,54 +1,72 @@
-import { useState, useEffect } from "react"
-import contacts from "./services/contacts"
+import { useState, useEffect } from 'react'
+import contacts from './services/contacts'
 
-import Filter from "./components/Filter"
-import AddContactForm from "./components/AddContactForm"
-import ShowNumbers from "./components/ShowNumbers"
+import Filter from './components/Filter'
+import AddContactForm from './components/AddContactForm'
+import ShowNumbers from './components/ShowNumbers'
 
 const App = () => {
-  console.log("-------------------------")
+  console.log('-------------------------')
   //VARIABLES
   const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState("")
-  const [newNumber, setNewNumber] = useState("")
-  const [filterText, setFilterText] = useState("")
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [filterText, setFilterText] = useState('')
 
   useEffect(() => {
-    contacts.getAllContacts().then((contacts) => {
+    contacts.getAllContacts().then(contacts => {
       setPersons(contacts)
     })
   }, [])
 
-  const add = (e) => {
+  const add = e => {
     e.preventDefault()
-    if (!newName || !newNumber) {
-      alert("Name or Number is empty")
-      return
-    }
-    const isRepeated = () => persons.some((person) => person.name === newName)
-    if (isRepeated()) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
+    const isRepeated = () => persons.some(person => person.name === newName)
     const newPerson = {
       name: newName,
       number: newNumber,
     }
-    contacts.addContact(newPerson).then((newPerson) => {
+
+    if (!newName || !newNumber) {
+      alert('Name or Number is empty')
+      return
+    }
+    if (isRepeated()) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
+    contacts.addContact(newPerson).then(newPerson => {
       setPersons(persons.concat(newPerson))
-      setNewName("")
-      setNewNumber("")
+      setNewName('')
+      setNewNumber('')
     })
   }
 
+  const deleteContact = e => {
+    const deletedContactId = e.target.id
+    const personToDelete = persons.find(person => person.id === e.target.id)
+    // console.log(e.target.id)
+    // console.log(personToDelete)
+
+    if (
+      e.target.tagName === 'BUTTON' &&
+      window.confirm(`Delete ${personToDelete.name}?`)
+    ) {
+      contacts.deleteContact(deletedContactId).then(() => {
+        setPersons(persons.filter(person => person.id != deletedContactId))
+      })
+    }
+  }
+
   //OnChange Handlers
-  const nameOnChange = (e) => {
+  const nameOnChange = e => {
     setNewName(e.target.value)
   }
-  const numberOnChange = (e) => {
+  const numberOnChange = e => {
     setNewNumber(e.target.value)
   }
-  const filterOnChange = (e) => {
+  const filterOnChange = e => {
     setFilterText(e.target.value)
   }
 
@@ -64,7 +82,11 @@ const App = () => {
         numberOnChange={numberOnChange}
         add={add}
       />
-      <ShowNumbers persons={persons} filterText={filterText} />
+      <ShowNumbers
+        persons={persons}
+        filterText={filterText}
+        deleteContact={deleteContact}
+      />
     </div>
   )
 }
