@@ -6,7 +6,7 @@ import AddContactForm from './components/AddContactForm'
 import ShowNumbers from './components/ShowNumbers'
 
 const App = () => {
-  console.log('-------------------------')
+  // console.log('-------------------------')
   //VARIABLES
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -22,7 +22,7 @@ const App = () => {
   const add = e => {
     e.preventDefault()
     const isRepeated = () => persons.some(person => person.name === newName)
-    const newPerson = {
+    let newPerson = {
       name: newName,
       number: newNumber,
     }
@@ -31,8 +31,18 @@ const App = () => {
       alert('Name or Number is empty')
       return
     }
+
     if (isRepeated()) {
-      alert(`${newName} is already added to phonebook`)
+      // alert(`${newName} is already added to phonebook`)
+      const olderPerson = persons.find(person => person.name === newName)
+      newPerson = {...newPerson, "id":olderPerson.id}
+      const confirmMessage = `${newName} is already added to phonebook. Replace the older number(${olderPerson.number}) with a new one(${newPerson.number})?`
+      console.log(olderPerson)
+      if (window.confirm(confirmMessage)) {
+        console.log('ok')
+        contacts.replaceContact(newPerson)
+        //Terminar de poner los SetPersons
+      }
       return
     }
 

@@ -3,6 +3,7 @@ const baseUrl = 'http://localhost:3001/persons'
 
 const getAllContacts = () => {
   const request = axios.get(baseUrl)
+
   //   console.log(request.then(response => response.data))
 
   return request.then(response => response.data)
@@ -19,4 +20,13 @@ const deleteContact = id => {
   return axios.delete(`${baseUrl}/${id}`)
 }
 
-export default { getAllContacts, addContact, deleteContact }
+const replaceContact = (replacePerson)=>{
+  console.log('replacePerson: ', replacePerson);
+  
+  const request = axios.put(`${baseUrl}/${replacePerson.id}`,replacePerson)
+  request.then(response => response.data)
+  console.log(request);
+  
+}
+
+export default { getAllContacts, addContact, deleteContact, replaceContact }
