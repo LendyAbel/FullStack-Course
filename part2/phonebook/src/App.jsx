@@ -21,11 +21,8 @@ const App = () => {
 
   const add = e => {
     e.preventDefault()
+    let newPerson = { name: newName, number: newNumber }
     const isRepeated = () => persons.some(person => person.name === newName)
-    let newPerson = {
-      name: newName,
-      number: newNumber,
-    }
 
     if (!newName || !newNumber) {
       alert('Name or Number is empty')
@@ -33,24 +30,39 @@ const App = () => {
     }
 
     if (isRepeated()) {
-      // alert(`${newName} is already added to phonebook`)
       const olderPerson = persons.find(person => person.name === newName)
-      newPerson = {...newPerson, "id":olderPerson.id}
+      newPerson = { ...newPerson, id: olderPerson.id }
       const confirmMessage = `${newName} is already added to phonebook. Replace the older number(${olderPerson.number}) with a new one(${newPerson.number})?`
-      console.log(olderPerson)
-      if (window.confirm(confirmMessage)) {
-        console.log('ok')
-        contacts.replaceContact(newPerson)
-        //Terminar de poner los SetPersons
-      }
-      return
-    }
 
-    contacts.addContact(newPerson).then(newPerson => {
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
-    })
+      // console.log(olderPerson)
+
+      if (
+        newPerson.number != olderPerson.number &&
+        window.confirm(confirmMessage)
+      ) {
+        // console.log('ok')
+
+        contacts.replaceContact(newPerson).then(newPerson => {
+          setPersons(
+            persons.map(person =>
+              person.id != newPerson.id ? person : newPerson
+            )
+          )
+          setNewName('')
+          setNewNumber('')
+        })
+      } else {
+        alert(
+          `${newName} with number ${newNumber} is already added to phonebook`
+        )
+      }
+    } else {
+      contacts.addContact(newPerson).then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+    }
   }
 
   const deleteContact = e => {

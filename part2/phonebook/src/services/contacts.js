@@ -16,17 +16,19 @@ const addContact = newPerson => {
 
 const deleteContact = id => {
   // console.log(`delete contact with id ${id}`)
-  
+
   return axios.delete(`${baseUrl}/${id}`)
 }
 
-const replaceContact = (replacePerson)=>{
-  console.log('replacePerson: ', replacePerson);
-  
-  const request = axios.put(`${baseUrl}/${replacePerson.id}`,replacePerson)
-  request.then(response => response.data)
-  console.log(request);
-  
+const replaceContact = replacePerson => {
+
+  // console.log('replacePerson: ', replacePerson)
+
+  const request = axios.put(`${baseUrl}/${replacePerson.id}`, replacePerson)
+
+  // console.log(request)
+
+  return request.then(response => response.data)
 }
 
 export default { getAllContacts, addContact, deleteContact, replaceContact }
