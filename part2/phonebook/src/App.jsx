@@ -22,26 +22,20 @@ const App = () => {
   const add = e => {
     e.preventDefault()
     let newPerson = { name: newName, number: newNumber }
-    const isRepeated = () => persons.some(person => person.name === newName)
+    const isNameRepeatd = (persons, name) =>
+      persons.some(person => person.name === name)
 
     if (!newName || !newNumber) {
       alert('Name or Number is empty')
       return
     }
 
-    if (isRepeated()) {
+    if (isNameRepeatd(persons, newName)) {
       const olderPerson = persons.find(person => person.name === newName)
       newPerson = { ...newPerson, id: olderPerson.id }
-      const confirmMessage = `${newName} is already added to phonebook. Replace the older number(${olderPerson.number}) with a new one(${newPerson.number})?`
-
-      // console.log(olderPerson)
-
-      if (
-        newPerson.number != olderPerson.number &&
-        window.confirm(confirmMessage)
-      ) {
-        // console.log('ok')
-
+      const isNumberRepeated = (newPerson, olderPerson) =>
+        newPerson.number === olderPerson.number
+      const replaceContact = newPerson => {
         contacts.replaceContact(newPerson).then(newPerson => {
           setPersons(
             persons.map(person =>
@@ -51,10 +45,19 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-      } else {
+      }
+      const confirmMessage = `${newName} is already added to phonebook. Replace the older number(${olderPerson.number}) with a new one(${newPerson.number})?`
+
+      // console.log(olderPerson)
+
+      if (isNumberRepeated(newPerson, olderPerson)) {
         alert(
           `${newName} with number ${newNumber} is already added to phonebook`
         )
+      } else {
+        if (window.confirm(confirmMessage)) {
+          replaceContact(newPerson)
+        }
       }
     } else {
       contacts.addContact(newPerson).then(newPerson => {
