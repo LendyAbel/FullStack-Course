@@ -15,7 +15,7 @@ const App = () => {
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [filterText, setFilterText] = useState("")
-  const [message, setMessage] = useState(null)
+  const [[message, error], setMessage] = useState([null, false])
 
   useEffect(() => {
     contacts.getAllContacts().then((contacts) => {
@@ -28,24 +28,40 @@ const App = () => {
     setNewNumber("")
   }
   const replaceContact = (newPerson) => {
-    contacts.replaceContact(newPerson).then((updatePerson) => {
-      setPersons(
-        persons.map((p) => (p.id != updatePerson.id ? p : updatePerson))
-      )
-      resetFrom()
-      setMessage(`${updatePerson.name} number changed to ${updatePerson.number}`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    })
+    contacts
+      .replaceContact(newPerson)
+      .then((updatePerson) => {
+        setPersons(
+          persons.map((p) => (p.id != updatePerson.id ? p : updatePerson))
+        )
+        resetFrom()
+        setMessage([
+          `${updatePerson.name} number changed to ${updatePerson.number}`,
+          false,
+        ])
+        setTimeout(() => {
+          setMessage([null, false])
+        }, 5000)
+      })
+      .catch((error) => {
+        setMessage([
+          `${newPerson.name} was delete previously from server`,
+          true,
+        ])
+        setTimeout(() => {
+          setMessage([null, false])
+        }, 5000)
+        setPersons(persons.filter((p) => p.id != newPerson.id))
+      })
   }
+
   const addNewContact = (newPerson) => {
     contacts.addContact(newPerson).then((newPerson) => {
       setPersons(persons.concat(newPerson))
       resetFrom()
-      setMessage(`Added ${newPerson.name}`)
+      setMessage([`Added ${newPerson.name}`, false])
       setTimeout(() => {
-        setMessage(null)
+        setMessage([null, false])
       }, 5000)
     })
   }
@@ -83,9 +99,18 @@ const App = () => {
     // console.log(personToDelete)
 
     if (window.confirm(`Delete ${personToDelete.name}?`)) {
-      contacts.deleteContact(deletedContactId).then(() => {
-        setPersons(persons.filter((person) => person.id != deletedContactId))
-      })
+      contacts
+        .deleteContact(deletedContactId)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id != deletedContactId))
+          setMessage([`Deleted ${newPerson.name}`, false])
+          setTimeout(() => {
+            setMessage([null, false])
+          }, 5000)
+        })
+        .catch((error) => {
+          setPersons(persons.filter((p) => p.id != personToDelete.id))
+        })
     }
   }
 
@@ -103,7 +128,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={message} />
+      <Notification message={message} error={error} />
       <Filter filterText={filterText} filterOnChange={filterOnChange} />
       <AddContactForm
         newName={newName}
