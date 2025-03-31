@@ -6,5 +6,5 @@ const Notification = ({ message, error }) => {
     
     return <div className={`notification ${error?'error':'good'}`}>{message}</div>
   }
-  
+
   export default Notification
