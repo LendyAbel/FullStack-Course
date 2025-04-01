@@ -7,7 +7,7 @@ const ShowCountries = ({ countries }) => {
   const numbertoShow = 10
   const toShow = () => {
     if (countries.length > numbertoShow) {
-      return <p>To many matches, specify other filter</p>
+      return <p className='alert'>To many matches, specify other filter</p>
     }
     if (countries.length === 1) {
       const countrie = countries[0]
