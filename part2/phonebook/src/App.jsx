@@ -100,7 +100,7 @@ const App = () => {
       contacts
         .deleteContact(deletedContactId)
         .then(() => {
-          console.log("ok");
+          // console.log("ok");
           setPersons(persons.filter(person => person.id != deletedContactId))
           setMessageTo(`Deleted ${personToDelete.name}`, false)
         })
