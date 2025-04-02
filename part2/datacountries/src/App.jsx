@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import ShowCountries from './components/ShowCountries'
 import cf from './services/countriesFetch'
-import countriesFetch from './services/countriesFetch'
+
+import ShowCountries from './components/ShowCountries'
 
 const App = () => {
   const [name, setName] = useState('')
