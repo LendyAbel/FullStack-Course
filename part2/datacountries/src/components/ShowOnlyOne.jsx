@@ -1,6 +1,9 @@
 import React from 'react'
+import Weather from './Weather'
 
 const ShowOnlyOne = ({ country }) => {
+  // console.log(country)
+
   if (!country) return null
 
   return (
@@ -15,6 +18,11 @@ const ShowOnlyOne = ({ country }) => {
         })}
       </ul>
       <img src={country.flags.png} alt={country.flags.alt} />
+      <Weather
+        capital={country.capital ? country.capital.join(' ') : '---'}
+        lat={country.capitalInfo.latlng[0]}
+        long={country.capitalInfo.latlng[1]}
+      />
     </div>
   )
 }

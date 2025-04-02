@@ -7,4 +7,3 @@ const getAllCountries = () => {
 }
 
 export default { getAllCountries }
-

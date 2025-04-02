@@ -1,11 +1,7 @@
-html{
-    background-color: antiquewhite;
+html {
+  background-color: antiquewhite;
 }
 
-img{
-    margin-top: 20px;
-}
-
-.alert{
-    color: rgb(204, 87, 87);
+.alert {
+  color: rgb(204, 87, 87);
 }
